@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        with:
-          cache-from: type=gha,scope=global
-          cache-to: type=gha,mode=max,scope=global
       - name: Fetch crates
         uses: docker/build-push-action@v4
         with:
@@ -29,14 +26,11 @@ jobs:
           cache-to: type=gha,mode=max,scope=global
 
   fetch-src:
-    name: Fetch Crates
+    name: Fetch SRC
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        with:
-          cache-from: type=gha,scope=global
-          cache-to: type=gha,mode=max,scope=global
       - name: Fetch src
         uses: docker/build-push-action@v4
         with:
@@ -67,13 +61,12 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-        with:
-          cache-from: type=gha,scope=global
-          cache-to: type=gha,mode=max,scope=global
 
       - name: Build Docker image
         uses: docker/build-push-action@v4
         with:
+          cache-from: type=gha,scope=global
+          cache-to: type=gha,mode=max,scope=global
           push: false
           platforms: ${{ matrix.platform }}
           build-args: |
